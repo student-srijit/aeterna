@@ -1,0 +1,310 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>AETERNA | Ultra-Luxury Hypercar Showroom</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/gsap.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/gsap/3.12.2/ScrollTrigger.min.js"></script>
+    <link rel="stylesheet" href="style.css">
+</head>
+<body class="bg-[#050505] text-white selection:bg-[#c4a661] selection:text-black overflow-x-hidden">
+    <!-- Custom Premium Cursor -->
+    <div id="custom-cursor" class="custom-cursor"></div>
+    <div id="cursor-follower" class="cursor-follower"></div>
+    
+    <!-- Scroll Progress Indicator -->
+    <div class="scroll-progress-bar"></div>
+
+    <!-- Star Showroom Intro -->
+    <div id="star-showroom" class="fixed inset-0 z-[1000] bg-black flex items-center justify-center">
+        <div class="intro-content text-center z-10 pointer-events-none">
+            <h1 id="intro-title" class="text-6xl md:text-9xl font-bold tracking-tighter opacity-0 translate-y-10">AETERNA</h1>
+            <div id="intro-loader" class="w-32 h-[1px] bg-white/20 mx-auto mt-8 relative overflow-hidden">
+                <div id="loader-progress" class="absolute inset-0 bg-[#c4a661] -translate-x-full"></div>
+            </div>
+        </div>
+        <canvas id="three-canvas" class="absolute inset-0"></canvas>
+    </div>
+
+    <!-- Navigation -->
+    <nav id="main-nav" class="fixed top-0 w-full z-[500] px-8 py-6 flex justify-between items-center mix-blend-difference nav-glass">
+        <div class="logo text-2xl font-bold tracking-tighter text-[#c4a661]">AETERNA</div>
+        <div class="nav-links hidden md:flex gap-12 text-[10px] uppercase tracking-[0.3em] font-medium">
+            <a href="#collection" class="hover:text-[#c4a661] transition-all">Showroom</a>
+            <a href="#engineering" class="hover:text-[#c4a661] transition-all">Engineering</a>
+            <a href="#bespoke" class="hover:text-[#c4a661] transition-all">Bespoke</a>
+        </div>
+        <div class="flex gap-6 items-center">
+            <button onclick="toggleModal('login-modal')" class="text-[10px] uppercase tracking-widest hover:text-[#c4a661] transition-all">Portal</button>
+            <button onclick="toggleModal('booking-modal')" class="bg-[#c4a661] text-black text-[10px] font-bold uppercase tracking-[0.2em] px-8 py-3 hover:bg-white transition-all rounded-full">Secure Viewing</button>
+        </div>
+    </nav>
+
+    <!-- Main Content -->
+    <main id="main-content">
+        <!-- Hero Section -->
+        <section class="min-h-screen flex flex-col justify-center px-8 md:px-20 relative overflow-hidden">
+            <div class="max-w-4xl z-10">
+                <span class="inline-block text-[#c4a661] text-xs uppercase tracking-[0.5em] mb-6 opacity-0 translate-y-4 reveal-item">Automotive Excellence</span>
+                <h1 class="text-6xl md:text-[10rem] font-bold leading-[0.9] tracking-tighter mb-8 opacity-0 translate-y-8 reveal-item">Beyond <br/> Velocity.</h1>
+                <p class="text-white/50 max-w-lg text-lg leading-relaxed mb-10 opacity-0 translate-y-8 reveal-item">
+                    Where engineering meets high art. Enter the private world of Aeterna, a sanctuary for the world's most elite hypercars.
+                </p>
+                <div class="flex gap-8 opacity-0 translate-y-8 reveal-item">
+                    <button class="group flex items-center gap-4 text-xs uppercase tracking-widest">
+                        <span class="w-12 h-12 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-[#c4a661] group-hover:border-[#c4a661] transition-all">
+                            <svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M4.5 9L7.5 6L4.5 3" stroke="currentColor" stroke-width="1.5"/></svg>
+                        </span>
+                        The Collection
+                    </button>
+                </div>
+            </div>
+            
+            <!-- Floating Stats -->
+            <div class="absolute right-20 bottom-20 hidden lg:block border-l border-white/10 pl-12 py-4">
+                <div class="mb-8">
+                    <span class="block text-[10px] uppercase tracking-widest text-[#c4a661] mb-2">Max Output</span>
+                    <span class="text-4xl font-light tracking-tighter counter-number" data-target="1914">0</span>
+                    <span class="text-4xl font-light tracking-tighter"> HP</span>
+                </div>
+                <div>
+                    <span class="block text-[10px] uppercase tracking-widest text-[#c4a661] mb-2">0-100 KM/H</span>
+                    <span class="text-4xl font-light tracking-tighter counter-number" data-target="1.81" data-decimal="true">0</span>
+                    <span class="text-4xl font-light tracking-tighter"> SEC</span>
+                </div>
+            </div>
+
+            <!-- Background Asset -->
+            <div class="absolute top-1/2 right-[-10%] -translate-y-1/2 w-[60%] opacity-30 pointer-events-none parallax-element">
+                <img src="public/utopia.jpg" alt="Silhouette" class="w-full">
+            </div>
+        </section>
+
+        <!-- Showroom Grid -->
+        <section id="collection" class="py-32 px-8 md:px-20 bg-[#0a0a0a]">
+            <div class="flex flex-col md:flex-row justify-between items-end mb-24">
+                <div>
+                    <h2 class="text-4xl md:text-6xl font-bold tracking-tighter mb-4">The Curated <br/> Inventory</h2>
+                    <p class="text-white/40 uppercase text-[10px] tracking-[0.4em]">Selected works of modern engineering</p>
+                </div>
+                <div class="hidden md:block h-[1px] bg-white/10 flex-grow mx-20 mb-4"></div>
+                <p class="text-white/60 max-w-xs text-sm italic">Each vehicle in our collection represents the pinnacle of its era.</p>
+            </div>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- Car Item 1 -->
+                <div class="car-card-large group cursor-pointer relative overflow-hidden rounded-2xl bg-[#111] card-3d" data-tilt>
+                    <div class="aspect-[16/9] overflow-hidden">
+                        <img src="public/BugattiMistral.jpg" alt="Bugatti Mistral" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
+                    <div class="absolute bottom-10 left-10 right-10 flex justify-between items-end">
+                        <div>
+                            <span class="text-[#c4a661] text-[10px] uppercase tracking-widest mb-2 block">Available Now</span>
+                            <h3 class="text-3xl font-bold tracking-tighter">Mistral Roadster</h3>
+                        </div>
+                        <button onclick="openBooking('Mistral Roadster')" class="w-14 h-14 rounded-full bg-white text-black flex items-center justify-center opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Car Item 2 -->
+                <div class="car-card-large group cursor-pointer relative overflow-hidden rounded-2xl bg-[#111] card-3d" data-tilt>
+                    <div class="aspect-[16/9] overflow-hidden">
+                        <img src="public/jesko.jpg" alt="Jesko" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
+                    <div class="absolute bottom-10 left-10 right-10 flex justify-between items-end">
+                        <div>
+                            <span class="text-[#c4a661] text-[10px] uppercase tracking-widest mb-2 block">Reserve Interest</span>
+                            <h3 class="text-3xl font-bold tracking-tighter">Jesko Absolut</h3>
+                        </div>
+                        <button onclick="openBooking('Jesko Absolut')" class="w-14 h-14 rounded-full bg-white text-black flex items-center justify-center opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Car Item 3 -->
+                <div class="car-card-large group cursor-pointer relative overflow-hidden rounded-2xl bg-[#111] card-3d" data-tilt>
+                    <div class="aspect-[16/9] overflow-hidden">
+                        <img src="public/utopia.jpg" alt="Utopia" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
+                    <div class="absolute bottom-10 left-10 right-10 flex justify-between items-end">
+                        <div>
+                            <span class="text-[#c4a661] text-[10px] uppercase tracking-widest mb-2 block">Private Client</span>
+                            <h3 class="text-3xl font-bold tracking-tighter">Utopia V12</h3>
+                        </div>
+                        <button onclick="openBooking('Utopia V12')" class="w-14 h-14 rounded-full bg-white text-black flex items-center justify-center opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+                        </button>
+                    </div>
+                </div>
+
+                <!-- Car Item 4 -->
+                <div class="car-card-large group cursor-pointer relative overflow-hidden rounded-2xl bg-[#111] card-3d" data-tilt>
+                    <div class="aspect-[16/9] overflow-hidden">
+                        <img src="public/nevera.jpg" alt="Nevera" class="w-full h-full object-cover transition-transform duration-1000 group-hover:scale-110">
+                    </div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black/90 via-black/40 to-transparent opacity-0 group-hover:opacity-100 transition-opacity duration-500"></div>
+                    <div class="absolute inset-0 bg-gradient-to-t from-black via-transparent to-transparent opacity-60"></div>
+                    <div class="absolute bottom-10 left-10 right-10 flex justify-between items-end">
+                        <div>
+                            <span class="text-[#c4a661] text-[10px] uppercase tracking-widest mb-2 block">Electric Future</span>
+                            <h3 class="text-3xl font-bold tracking-tighter">Nevera Timeless</h3>
+                        </div>
+                        <button onclick="openBooking('Nevera')" class="w-14 h-14 rounded-full bg-white text-black flex items-center justify-center opacity-0 translate-y-4 group-hover:opacity-100 group-hover:translate-y-0 transition-all duration-500">
+                            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M5 12h14m-7-7 7 7-7 7"/></svg>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Engineering Excellence Section -->
+        <section id="engineering" class="min-h-screen py-32 px-8 md:px-20 relative overflow-hidden bg-gradient-to-b from-[#0a0a0a] to-[#050505]">
+            <div class="max-w-7xl mx-auto">
+                <div class="text-center mb-24">
+                    <span class="text-[#c4a661] text-xs uppercase tracking-[0.5em] mb-4 block">Precision Engineering</span>
+                    <h2 class="text-5xl md:text-8xl font-bold tracking-tighter mb-6">Crafted for <br/> Perfection</h2>
+                    <p class="text-white/50 max-w-2xl mx-auto text-lg">Every component is meticulously engineered to deliver unparalleled performance and luxury.</p>
+                </div>
+
+                <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                    <div class="engineering-card group p-8 border border-white/10 rounded-2xl bg-[#0a0a0a] hover:border-[#c4a661]/50 transition-all duration-500">
+                        <div class="w-16 h-16 rounded-full bg-[#c4a661]/10 flex items-center justify-center mb-6 group-hover:bg-[#c4a661]/20 transition-all">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-[#c4a661]">
+                                <path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold tracking-tighter mb-4">Carbon Fiber</h3>
+                        <p class="text-white/60 text-sm leading-relaxed">Aerospace-grade materials for maximum strength and minimal weight.</p>
+                    </div>
+
+                    <div class="engineering-card group p-8 border border-white/10 rounded-2xl bg-[#0a0a0a] hover:border-[#c4a661]/50 transition-all duration-500">
+                        <div class="w-16 h-16 rounded-full bg-[#c4a661]/10 flex items-center justify-center mb-6 group-hover:bg-[#c4a661]/20 transition-all">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-[#c4a661]">
+                                <circle cx="12" cy="12" r="10"/><path d="M12 6v6l4 2"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold tracking-tighter mb-4">Performance</h3>
+                        <p class="text-white/60 text-sm leading-relaxed">Track-tested engineering that pushes the boundaries of speed.</p>
+                    </div>
+
+                    <div class="engineering-card group p-8 border border-white/10 rounded-2xl bg-[#0a0a0a] hover:border-[#c4a661]/50 transition-all duration-500">
+                        <div class="w-16 h-16 rounded-full bg-[#c4a661]/10 flex items-center justify-center mb-6 group-hover:bg-[#c4a661]/20 transition-all">
+                            <svg width="32" height="32" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-[#c4a661]">
+                                <path d="M20 7h-9M14 17H5M15 3l-4 4 4 4M9 21l4-4-4-4"/>
+                            </svg>
+                        </div>
+                        <h3 class="text-2xl font-bold tracking-tighter mb-4">Innovation</h3>
+                        <p class="text-white/60 text-sm leading-relaxed">Cutting-edge technology meets timeless design excellence.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- Bespoke Section -->
+        <section id="bespoke" class="min-h-screen py-32 px-8 md:px-20 relative overflow-hidden">
+            <div class="max-w-7xl mx-auto">
+                <div class="grid grid-cols-1 lg:grid-cols-2 gap-20 items-center">
+                    <div>
+                        <span class="text-[#c4a661] text-xs uppercase tracking-[0.5em] mb-4 block">Bespoke Experience</span>
+                        <h2 class="text-5xl md:text-7xl font-bold tracking-tighter mb-8">Tailored to <br/> Your Vision</h2>
+                        <p class="text-white/60 text-lg leading-relaxed mb-8">
+                            Every detail can be customized to reflect your personal style. From paint finishes to interior materials, 
+                            create a hypercar that is uniquely yours.
+                        </p>
+                        <button onclick="toggleModal('booking-modal')" class="group flex items-center gap-4 text-sm uppercase tracking-widest">
+                            <span class="w-14 h-14 rounded-full border border-white/20 flex items-center justify-center group-hover:bg-[#c4a661] group-hover:border-[#c4a661] transition-all">
+                                <svg width="16" height="16" viewBox="0 0 12 12" fill="none"><path d="M4.5 9L7.5 6L4.5 3" stroke="currentColor" stroke-width="1.5"/></svg>
+                            </span>
+                            Begin Customization
+                        </button>
+                    </div>
+                    <div class="relative">
+                        <div class="aspect-square rounded-2xl overflow-hidden bg-gradient-to-br from-[#c4a661]/20 to-transparent p-1">
+                            <div class="w-full h-full bg-[#0a0a0a] rounded-2xl flex items-center justify-center">
+                                <div class="text-center p-12">
+                                    <div class="w-32 h-32 mx-auto mb-8 rounded-full bg-gradient-to-br from-[#c4a661] to-[#8b6f3d] flex items-center justify-center">
+                                        <svg width="64" height="64" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" class="text-black">
+                                            <path d="M12 2v20M2 12h20"/>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-2xl font-bold mb-4">Unlimited Options</h3>
+                                    <p class="text-white/60 text-sm">Over 1,000 customization options available</p>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+    </main>
+
+    <!-- Modals -->
+    <div id="booking-modal" class="modal-overlay hidden fixed inset-0 z-[10000] bg-black/95 flex items-center justify-end">
+        <div class="w-full md:w-[600px] h-full bg-[#0a0a0a] p-12 md:p-20 relative border-l border-white/10">
+            <button onclick="toggleModal('booking-modal')" class="absolute top-10 right-10 text-white/50 hover:text-white text-2xl">&times;</button>
+            
+            <div class="mb-12">
+                <span class="text-[#c4a661] text-[10px] uppercase tracking-[0.5em] mb-4 block">Reservation</span>
+                <h2 class="text-4xl font-bold tracking-tighter">Inquire for Ownership</h2>
+            </div>
+
+            <form id="booking-form" class="space-y-8">
+                <div class="group border-b border-white/10 pb-2 focus-within:border-[#c4a661] transition-all">
+                    <label class="text-[10px] uppercase tracking-widest text-white/40 mb-2 block">Name</label>
+                    <input type="text" id="b-name" placeholder="Full Name" required class="bg-transparent w-full text-xl outline-none py-2">
+                </div>
+                <div class="group border-b border-white/10 pb-2 focus-within:border-[#c4a661] transition-all">
+                    <label class="text-[10px] uppercase tracking-widest text-white/40 mb-2 block">Email Address</label>
+                    <input type="email" id="b-email" placeholder="email@luxury.com" required class="bg-transparent w-full text-xl outline-none py-2">
+                </div>
+                <div class="group border-b border-white/10 pb-2 focus-within:border-[#c4a661] transition-all">
+                    <label class="text-[10px] uppercase tracking-widest text-white/40 mb-2 block">Select Model</label>
+                    <select id="b-model" class="bg-transparent w-full text-xl outline-none py-2 appearance-none">
+                        <option value="Mistral Roadster">Mistral Roadster</option>
+                        <option value="Jesko Absolut">Jesko Absolut</option>
+                        <option value="Utopia V12">Utopia V12</option>
+                        <option value="Nevera">Nevera Timeless</option>
+                    </select>
+                </div>
+                
+                <button type="submit" class="w-full bg-[#c4a661] text-black font-bold py-5 uppercase tracking-[0.3em] hover:bg-white transition-all">Submit Inquery</button>
+                <p class="text-[10px] text-white/30 text-center uppercase tracking-widest mt-8">Secure encryption active</p>
+            </form>
+        </div>
+    </div>
+
+    <!-- Login Modal -->
+    <div id="login-modal" class="modal-overlay hidden fixed inset-0 z-[10000] bg-black/95 flex items-center justify-center p-6">
+        <div class="max-w-md w-full bg-[#0a0a0a] p-12 border border-white/10 rounded-2xl relative">
+            <button onclick="toggleModal('login-modal')" class="absolute top-6 right-6 text-white/50 hover:text-white">&times;</button>
+            <h2 id="auth-title" class="text-3xl font-bold tracking-tighter mb-8 text-center">Elite Portal</h2>
+            
+            <form id="auth-form" class="space-y-6">
+                <div id="signup-fields" class="hidden">
+                    <input type="text" name="name" placeholder="Full Name" class="w-full bg-white/5 border border-white/10 p-4 outline-none focus:border-[#c4a661]">
+                </div>
+                <input type="email" name="email" placeholder="Email Address" required class="w-full bg-white/5 border border-white/10 p-4 outline-none focus:border-[#c4a661]">
+                <input type="password" name="password" placeholder="Passcode" required class="w-full bg-white/5 border border-white/10 p-4 outline-none focus:border-[#c4a661]">
+                
+                <button type="submit" class="w-full bg-[#c4a661] text-black font-bold py-4 uppercase tracking-widest hover:bg-white transition-all">Enter Vault</button>
+                
+                <p onclick="switchAuth()" class="text-center text-[10px] uppercase tracking-widest text-white/40 mt-6 cursor-pointer hover:text-white">Request Membership</p>
+            </form>
+        </div>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+</html>

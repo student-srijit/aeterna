@@ -1,0 +1,383 @@
+/* Typography and Global Reset */
+@import url("https://fonts.googleapis.com/css2?family=Syncopate:wght@400;700&family=Outfit:wght@200;300;400;500;600;700&display=swap");
+
+:root {
+  --primary: #c4a661;
+  --bg: #050505;
+  --surface: #0a0a0a;
+  --text-dim: rgba(255, 255, 255, 0.5);
+  --border: rgba(255, 255, 255, 0.08);
+}
+
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  background-color: var(--bg);
+  color: white;
+  font-family: "Outfit", sans-serif;
+  line-height: 1.5;
+  -webkit-font-smoothing: antialiased;
+}
+
+h1,
+h2,
+h3,
+.logo {
+  font-family: "Syncopate", sans-serif;
+  text-transform: uppercase;
+  letter-spacing: -0.05em;
+}
+
+/* Custom Scrollbar */
+::-webkit-scrollbar {
+  width: 4px;
+}
+::-webkit-scrollbar-track {
+  background: var(--bg);
+}
+::-webkit-scrollbar-thumb {
+  background: var(--primary);
+  border-radius: 10px;
+}
+
+/* Star Showroom Intro */
+#star-showroom {
+  transition: opacity 2s cubic-bezier(0.86, 0, 0.07, 1);
+}
+
+.intro-content h1 {
+  background: linear-gradient(180deg, #fff 0%, #c4a661 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+
+/* Transitions */
+.reveal-item {
+  transition: all 1s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Nav */
+nav a {
+  position: relative;
+}
+nav a::after {
+  content: "";
+  position: absolute;
+  bottom: -4px;
+  left: 0;
+  width: 0;
+  height: 1px;
+  background: var(--primary);
+  transition: width 0.4s cubic-bezier(0.23, 1, 0.32, 1);
+}
+nav a:hover::after {
+  width: 100%;
+}
+
+/* Car Cards */
+.car-card-large {
+  transition: all 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.car-card-large:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 30px 60px rgba(0, 0, 0, 0.5);
+}
+
+/* Modal Animations */
+.modal-overlay {
+  transition: opacity 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+#booking-modal .modal-content {
+  transform: translateX(100%);
+  transition: transform 0.8s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+#booking-modal:not(.hidden) .modal-content {
+  transform: translateX(0);
+}
+
+/* Forms */
+input,
+select {
+  border-radius: 0;
+  transition: border-color 0.4s;
+}
+
+select option {
+  background: #111;
+  color: white;
+}
+
+/* Utility Classes */
+.glass {
+  background: rgba(255, 255, 255, 0.02);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+}
+
+.hidden {
+  display: none !important;
+}
+
+@keyframes progress-load {
+  0% {
+    transform: translateX(-100%);
+  }
+  50% {
+    transform: translateX(0%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+#loader-progress {
+  /* Animation controlled by GSAP */
+}
+
+/* Premium Custom Cursor */
+.custom-cursor {
+  width: 20px;
+  height: 20px;
+  border: 2px solid var(--primary);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9999;
+  transform: translate(-50%, -50%);
+  transition: width 0.3s, height 0.3s, border-width 0.3s;
+  mix-blend-mode: difference;
+  display: none;
+}
+
+.cursor-follower {
+  width: 60px;
+  height: 60px;
+  border: 1px solid rgba(196, 166, 97, 0.3);
+  border-radius: 50%;
+  position: fixed;
+  pointer-events: none;
+  z-index: 9998;
+  transform: translate(-50%, -50%);
+  transition: all 0.15s ease-out;
+  mix-blend-mode: difference;
+  display: none;
+}
+
+.custom-cursor.hover {
+  width: 40px;
+  height: 40px;
+  border-width: 1px;
+}
+
+.cursor-follower.hover {
+  width: 80px;
+  height: 80px;
+  border-color: var(--primary);
+}
+
+@media (hover: hover) and (pointer: fine) {
+  .custom-cursor,
+  .cursor-follower {
+    display: block;
+  }
+}
+
+/* Scroll Progress Bar */
+.scroll-progress-bar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 0%;
+  height: 2px;
+  background: linear-gradient(90deg, var(--primary), #fff);
+  z-index: 10000;
+  transition: width 0.1s ease-out;
+}
+
+/* Premium Navigation Glass Effect */
+.nav-glass {
+  transition: all 0.3s ease;
+}
+
+.nav-glass.scrolled {
+  background: rgba(5, 5, 5, 0.8);
+  backdrop-filter: blur(20px);
+  -webkit-backdrop-filter: blur(20px);
+  border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+}
+
+/* 3D Tilt Effect for Cards */
+.card-3d {
+  transform-style: preserve-3d;
+  transition: transform 0.1s ease-out;
+}
+
+.card-3d.tilt {
+  transition: transform 0.1s ease-out;
+}
+
+/* Premium Car Card Enhancements */
+.car-card-large {
+  position: relative;
+}
+
+.car-card-large::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  border-radius: 1rem;
+  padding: 1px;
+  background: linear-gradient(135deg, transparent, var(--primary), transparent);
+  -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+  -webkit-mask-composite: xor;
+  mask-composite: exclude;
+  opacity: 0;
+  transition: opacity 0.5s ease;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.car-card-large:hover::before {
+  opacity: 0.5;
+}
+
+/* Smooth Scroll */
+html {
+  scroll-behavior: smooth;
+}
+
+/* Premium Button Hover Effects */
+button,
+a {
+  position: relative;
+  overflow: hidden;
+}
+
+button::before,
+a::before {
+  content: "";
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  width: 0;
+  height: 0;
+  border-radius: 50%;
+  background: rgba(196, 166, 97, 0.1);
+  transform: translate(-50%, -50%);
+  transition: width 0.6s, height 0.6s;
+}
+
+button:hover::before,
+a:hover::before {
+  width: 300px;
+  height: 300px;
+}
+
+/* Premium Image Reveal Animation */
+.car-card-large img {
+  transform: scale(1.1);
+  transition: transform 1.2s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.car-card-large:hover img {
+  transform: scale(1);
+}
+
+/* Counter Animation */
+.counter-number {
+  display: inline-block;
+}
+
+/* Parallax Effect */
+.parallax-element {
+  will-change: transform;
+}
+
+/* Premium Section Transitions */
+section {
+  position: relative;
+  overflow: hidden;
+}
+
+section::before {
+  content: "";
+  position: absolute;
+  top: 0;
+  left: -100%;
+  width: 100%;
+  height: 100%;
+  background: linear-gradient(90deg, transparent, rgba(196, 166, 97, 0.05), transparent);
+  transition: left 0.5s ease;
+  z-index: 0;
+  pointer-events: none;
+}
+
+section:hover::before {
+  left: 100%;
+}
+
+/* Premium Text Reveal */
+.text-reveal {
+  overflow: hidden;
+}
+
+.text-reveal span {
+  display: inline-block;
+  transform: translateY(100%);
+  transition: transform 0.6s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+.text-reveal.revealed span {
+  transform: translateY(0);
+}
+
+/* Magnetic Effect for Interactive Elements */
+.magnetic {
+  transition: transform 0.3s cubic-bezier(0.23, 1, 0.32, 1);
+}
+
+/* Premium Loading States */
+@keyframes shimmer {
+  0% {
+    background-position: -1000px 0;
+  }
+  100% {
+    background-position: 1000px 0;
+  }
+}
+
+.loading-shimmer {
+  animation: shimmer 2s infinite;
+  background: linear-gradient(
+    to right,
+    rgba(255, 255, 255, 0) 0%,
+    rgba(255, 255, 255, 0.1) 50%,
+    rgba(255, 255, 255, 0) 100%
+  );
+  background-size: 1000px 100%;
+}
+
+/* Engineering Cards */
+.engineering-card {
+  transform: translateY(20px);
+  opacity: 0;
+}
+
+.engineering-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 20px 40px rgba(196, 166, 97, 0.1);
+}
+
+/* Smooth Scroll Enhancement */
+@media (prefers-reduced-motion: no-preference) {
+  html {
+    scroll-behavior: smooth;
+  }
+}
