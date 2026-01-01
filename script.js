@@ -159,15 +159,30 @@ async function apiRequest(endpoint, options = {}) {
 
   try {
     const response = await fetch(url, config)
-    const data = await response.json()
+    
+    // Check if response is actually JSON
+    let data
+    const contentType = response.headers.get('content-type')
+    if (contentType && contentType.includes('application/json')) {
+      data = await response.json()
+    } else {
+      const text = await response.text()
+      throw new Error(`Server error: ${text || response.statusText}`)
+    }
     
     if (!response.ok) {
-      throw new Error(data.error || 'Request failed')
+      throw new Error(data.error || data.message || 'Request failed')
     }
     
     return data
   } catch (error) {
     console.error('API Error:', error)
+    
+    // Provide more helpful error messages
+    if (error.message.includes('Failed to fetch') || error.message.includes('NetworkError')) {
+      throw new Error('Cannot connect to server. Please make sure the server is running on http://localhost:3000')
+    }
+    
     throw error
   }
 }

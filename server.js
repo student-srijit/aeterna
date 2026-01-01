@@ -28,15 +28,16 @@ app.use(express.static('.'));
 // MongoDB Connection
 const MONGODB_URI = process.env.MONGODB_URI || 'mongodb://localhost:27017/aeterna-hypercars';
 
-mongoose.connect(MONGODB_URI, {
-  useNewUrlParser: true,
-  useUnifiedTopology: true,
-})
+// MongoDB Connection with graceful handling
+mongoose.connect(MONGODB_URI)
 .then(() => {
   console.log('✅ Connected to MongoDB');
+  console.log(`📊 Database: ${MONGODB_URI.split('/').pop().split('?')[0]}`);
 })
 .catch((error) => {
-  console.error('❌ MongoDB connection error:', error);
+  console.error('❌ MongoDB connection error:', error.message);
+  console.error('⚠️  Server will continue, but database operations will fail.');
+  console.error('💡 Make sure MongoDB is running or update MONGODB_URI in .env.local');
 });
 
 // User Schema
@@ -355,6 +356,8 @@ app.get('/api/health', (req, res) => {
 // Start Server
 app.listen(PORT, () => {
   console.log(`🚀 Server running on http://localhost:${PORT}`);
-  console.log(`📊 MongoDB URI: ${MONGODB_URI}`);
+  console.log(`📊 MongoDB URI: ${MONGODB_URI.split('@').length > 1 ? MONGODB_URI.split('@')[1] : MONGODB_URI}`);
+  console.log(`🌐 API endpoints available at http://localhost:${PORT}/api`);
+  console.log(`📝 Health check: http://localhost:${PORT}/api/health`);
 });
 
